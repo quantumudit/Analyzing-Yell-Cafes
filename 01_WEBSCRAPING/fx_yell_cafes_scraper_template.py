@@ -1,5 +1,5 @@
 from requests_html import HTMLSession
-import datetime
+from datetime import datetime, timezone
 
 session = HTMLSession()
 
@@ -25,10 +25,11 @@ def scrape_content(page_url: str) -> None:
     Returns:
         It returns nothing but adds individual properties into the 'all_shops' list
     """
-    
+    print('\n')
     print(f'Scraping properties from: {page_url}')
     
-    current_utc_timestamp = datetime.datetime.now(datetime.timezone.utc).strftime('%d-%b-%Y %H:%M:%S')
+    utc_timezone = timezone.utc
+    current_utc_timestamp = datetime.now(utc_timezone).strftime('%d-%b-%Y %H:%M:%S')
     
     response = session.get(page_url)
     content = response.html.find('div.col-sm-24 article')
@@ -79,6 +80,9 @@ def scrape_content(page_url: str) -> None:
         
         all_cafes.append(shop_details)
     return
+
+# Testing the scraper template #
+# ---------------------------- #
 
 if __name__ == '__main__':
     
